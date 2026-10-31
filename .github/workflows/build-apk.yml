@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,9 +44,23 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug --stacktrace --no-daemon
 
-      - name: Upload APK
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk CommerceHub11.apk
+
+      # Direct .apk download (zip nahi): repo -> Releases
+      - name: Publish APK to Releases
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+          prerelease: true
+          files: CommerceHub11.apk
+
+      - name: Upload APK (artifact backup)
         uses: actions/upload-artifact@v4
         with:
           name: CommerceHub11-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: CommerceHub11.apk
           if-no-files-found: error
+          
