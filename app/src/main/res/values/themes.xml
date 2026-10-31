@@ -1,8 +1,0 @@
-<resources>
-    <style name="Theme.CommerceHub11" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">@color/app_window_bg</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-</resources>
